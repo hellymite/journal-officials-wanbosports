@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>九游娱乐 · 信息卡片介绍</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: linear-gradient(145deg, #f5f9fc 0%, #e3eef5 100%);
+            color: #1c2e3a;
+            line-height: 1.6;
+            padding: 20px 16px 48px;
+            min-height: 100vh;
+        }
+
+        .grid-wrap {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        /* 主视觉 hero */
+        .hero-card {
+            background: #0f2c3b;
+            background-image: radial-gradient(circle at 15% 30%, #1d4d5e 0%, #0b252f 90%);
+            border-radius: 36px 12px 36px 12px;
+            padding: 40px 28px 48px;
+            color: white;
+            box-shadow: 0 18px 32px -8px rgba(0, 30, 40, 0.25);
+            transition: box-shadow 0.25s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-card::after {
+            content: '';
+            position: absolute;
+            right: -60px;
+            top: -60px;
+            width: 240px;
+            height: 240px;
+            background: radial-gradient(circle, rgba(60, 190, 180, 0.10) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .hero-card h1 {
+            font-size: 2.1rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+            line-height: 1.2;
+            max-width: 70%;
+        }
+
+        .hero-card p {
+            font-size: 1.05rem;
+            opacity: 0.88;
+            max-width: 78%;
+            margin-bottom: 20px;
+            color: #d6e6ed;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            background: rgba(60, 190, 180, 0.18);
+            backdrop-filter: blur(2px);
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(60, 190, 180, 0.25);
+            color: #b8e2de;
+            letter-spacing: 0.3px;
+        }
+
+        /* 网格卡片区 */
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.70);
+            backdrop-filter: blur(4px);
+            border-radius: 28px 8px 28px 8px;
+            padding: 26px 20px 22px;
+            box-shadow: 0 4px 12px rgba(30, 60, 80, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.55);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px -6px rgba(20, 70, 80, 0.12);
+            border-color: rgba(50, 180, 170, 0.3);
+        }
+
+        .card-icon {
+            font-size: 2.2rem;
+            line-height: 1;
+            margin-bottom: 10px;
+            display: block;
+            color: #187b7a;
+        }
+
+        .card h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #0d3340;
+            margin-bottom: 8px;
+            border-left: 4px solid #2a9d9a;
+            padding-left: 12px;
+        }
+
+        .card p, .card ul {
+            font-size: 0.96rem;
+            color: #2b4a56;
+        }
+
+        .card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .card li {
+            padding: 5px 0 5px 22px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="%232a9d9a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>') left center no-repeat;
+            background-size: 14px;
+        }
+
+        .card-soft {
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(2px);
+        }
+
+        /* 自然链接段落 */
+        .narrative-block {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(2px);
+            border-radius: 30px 8px 30px 8px;
+            padding: 32px 26px;
+            border: 1px solid rgba(90, 180, 175, 0.15);
+            line-height: 1.7;
+            font-size: 1.02rem;
+        }
+
+        .narrative-block a {
+            color: #13656b;
+            font-weight: 500;
+            text-decoration: none;
+            border-bottom: 1.5px dashed #3eb5b0;
+            transition: border-bottom 0.2s, color 0.2s;
+        }
+
+        .narrative-block a:hover {
+            color: #0a464a;
+            border-bottom: 1.5px solid #0e7d7a;
+        }
+
+        .faq-mini {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px 22px;
+            margin-top: 16px;
+        }
+
+        .faq-mini details {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 40px 6px 40px 6px;
+            padding: 10px 16px 10px 20px;
+            border: 1px solid rgba(60, 130, 130, 0.1);
+            transition: background 0.15s;
+            cursor: pointer;
+        }
+
+        .faq-mini details[open] {
+            background: rgba(255, 255, 255, 0.7);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .faq-mini summary {
+            font-weight: 550;
+            color: #0d3b42;
+            outline: none;
+            font-size: 0.95rem;
+        }
+
+        .faq-mini details p {
+            margin: 10px 0 4px;
+            font-size: 0.9rem;
+            color: #1c3e46;
+            padding-left: 6px;
+            border-left: 2px solid #3ab3ae;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: #447580;
+            border-top: 1px solid rgba(70, 150, 150, 0.15);
+            padding-top: 24px;
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 680px) {
+            body {
+                padding: 12px 10px 40px;
+            }
+
+            .grid-2col {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .hero-card h1 {
+                font-size: 1.7rem;
+                max-width: 100%;
+            }
+
+            .hero-card p {
+                max-width: 100%;
+                font-size: 0.98rem;
+            }
+
+            .faq-mini {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+
+            .card {
+                padding: 20px 16px;
+            }
+
+            .narrative-block {
+                padding: 24px 18px;
+                font-size: 0.98rem;
+            }
+        }
+
+        @media (min-width: 900px) {
+            .grid-2col {
+                gap: 28px;
+            }
+
+            .hero-card {
+                padding: 54px 40px 56px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-wrap">
+
+        <!-- 主视觉 -->
+        <div class="hero-card">
+            <h1>九游娱乐 · 松弛有度的陪伴</h1>
+            <p>在生活节奏不断加快的今天，有一片角落留给兴致与好奇。轻巧的互动、风格各异的体验，都能成为平淡日子里小小的涟漪。</p>
+            <span class="hero-tag">✦ 多元内容 · 自然融入</span>
+        </div>
+
+        <!-- 两列用途卡片 + 适合人群 -->
+        <div class="grid-2col">
+
+            <div class="card">
+                <span class="card-icon">🎯</span>
+                <h2>使用场景</h2>
+                <ul>
+                    <li>通勤片刻 · 轻松一局</li>
+                    <li>午后放空 · 换个心情</li>
+                    <li>好友闲聊 · 分享趣味</li>
+                    <li>睡前舒缓 · 安静探索</li>
+                </ul>
+                <p style="margin-top: 12px;">不追求紧绷的胜负，更享受过程里的发现。</p>
+            </div>
+
+            <div class="card">
+                <span class="card-icon">🧑‍🤝‍🧑</span>
+                <h2>适合人群</h2>
+                <ul>
+                    <li>喜欢轻量互动的上班族</li>
+                    <li>寻找创意灵感的年轻人</li>
+                    <li>偶尔想换换口味的好奇派</li>
+                    <li>注重体验氛围的休闲玩家</li>
+                </ul>
+                <p style="margin-top: 12px;">不论新手还是老友，都能找到自在的步调。</p>
+            </div>
+        </div>
+
+        <!-- 更细分的卡片：特点与活力，视觉变体 -->
+        <div class="grid-2col">
+            <div class="card card-soft">
+                <span class="card-icon">🌱</span>
+                <h2>特点 · 轻巧质感</h2>
+                <p>界面克制，反馈温和，没有冗余的弹窗或催促。每次打开都像翻一本有温度的小书，节奏由你自己决定。</p>
+            </div>
+            <div class="card card-soft">
+                <span class="card-icon">🌀</span>
+                <h2>活力 · 持续更新</h2>
+                <p>主题内容会随着季节、热点或用户偏好悄然变化，总有一些意想不到的惊喜藏在下次浏览里。</p>
+            </div>
+        </div>
+
+        <!-- 自然链接段落 + FAQ 摘要 -->
+        <div class="narrative-block">
+            <p>如果你对这类轻松又带点探索感的内容感兴趣，或许也会对 <a href="https://chinaapp-jiuyou.com">九游娱乐</a> 本身的调性产生共鸣。它不是那种高亢喧哗的娱乐平台，而更像一个安静的街角咖啡馆，提供各种口味的体验——无论你是想短暂放空，还是寻找一点小刺激，都能随意落座，不必有负担。</p>
+            <p style="margin-top: 18px;">很多人在工作日午休、周末午后或临睡前打开它，发现时间在不知不觉中变得柔软。不需要刻意记住规则，也不用追赶进度，每一次都是新鲜的短途旅行。</p>
+
+            <!-- FAQ 摘要 两列 -->
+            <div class="faq-mini">
+                <details>
+                    <summary>内容主要偏向哪类？</summary>
+                    <p>涵盖轻趣味、策略思考、视觉叙事等，风格偏治愈与巧思，不强调重度对抗。</p>
+                </details>
+                <details>
+                    <summary>需要注册或付费吗？</summary>
+                    <p>基础体验无需注册，部分特色内容可能涉及内购或身份验证，以实际页面展示为准。</p>
+                </details>
+                <details>
+                    <summary>移动端体验如何？</summary>
+                    <p>针对手机触摸与竖屏做了适配，滑动、点按都很顺滑，也支持平板等设备。</p>
+                </details>
+                <details>
+                    <summary>内容更新频率？</summary>
+                    <p>保持月度更新，特殊时期会有小型主题活动，具体可留意平台动态。</p>
+                </details>
+            </div>
+        </div>
+
+        <!-- 温和结尾 -->
+        <div class="footer-note">
+            ⚬ 一份关于九游娱乐的简影 · 惬意常在 ⚬
+        </div>
+
+    </div>
+</body>
+</html>
